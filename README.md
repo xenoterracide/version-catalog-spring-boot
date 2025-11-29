@@ -6,64 +6,6 @@ SPDX-License-Identifier: CC-BY-NC-4.0
 
 # README
 
-This repo hosts 2 plugins, [semver](module/semver/README.md) and [git](module/git/README.md).
-
-This plugin expects that you will `git tag` in the format of `v0.1.1` and with only one number on prerelease versions,
-e.g. `v0.1.1-rc.1`. It also expects that you will use annotated tags.
-
-## FAQ
-
-### Gradle Support
-
-Gradle and Java versions are tested as follows. Older versions may work but are unsupported. Version 1.x starts with
-Java 11 but may require 17 without notice.
-
-| Version | Gradle | Java | License                            |
-| ------- | ------ | ---- | ---------------------------------- |
-| v0.13.x | 8.x    | 11.x | Apache 2.0                         |
-| v0.14.x | 9.x    | 17.x | GPLv3 with Classpath Exception 2.0 |
-
-### Shallow Clones
-
-```
-shallow clone detected! git only has {} commits
-```
-
-Shallow clones will not work properly with calculating the distance and thus you must not use them. The usual reason for
-doing a shallow clone is that repositories can grow quiet large, and it can be quite slow to download a 100Mb
-repository. What most people don't realize is that git is lazy and will fetch blobs as it needs them for a checkout if
-you do things correctly. `git add remote <origin> <https://...>` and then doing `git fetch --all --filter blob:none`
-followed by an operation like `git checkout <branch>` will not retrieve any files until you do the git checkout but it
-will have your full history. This will achieve the correct behavior on github.
-
-```yml
-- uses: actions/checkout@v4
-  with:
-    ref: ${{ github.event.workflow_run.head_branch}}
-    filter: "blob:none"
-    fetch-depth: 0
-```
-
-### Annotated Tags
-
-- [GitHub does not checkout annotated tags properly](https://github.com/actions/checkout/issues/882)
-
-You can use this snippet or another workaround documented on the issue
-
-```yml
-- uses: actions/checkout@v4
-  with:
-    ref: ${{ github.ref }}
-```
-
-## Goals
-
-Provide Semantic versioning for Maven publishing with Gradle.
-
-_Future_: Provide a way to determine what the next version should be using your projects ABI.
-
-## Contributing
-
 ### Languages
 
 [asdf](https://asdf-vm.com) is suggested, you can use whatever you'd like to get
@@ -79,19 +21,6 @@ add a way to export these to your `PATH` in your `~/.profile`
 - [Yarn 4](https://yarnpkg.com/getting-started/install) (via Corepack)
 
 #### Fetching Dependencies
-
-In order to get snapshots of dependencies, you must have a GitHub token in your `~/.gradle/gradle.properties` file. This file should look like:
-
-```properties
-ghUsername=<your username>
-ghPassword=<your token>
-```
-
-You should generate your PAT as [Github Documents here](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-gradle-registry#authenticating-to-github-packages).
-
-> a personal access token (classic) with at least `read:packages` scope to install packages associated with other private repositories (which `GITHUB_TOKEN` can't access).
-
-Then run.
 
 Yarn setup and manual postinstall:
 
