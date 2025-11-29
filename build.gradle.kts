@@ -1,3 +1,4 @@
+import com.xenoterracide.gradle.convention.publish.GithubPublicRepositoryConfiguration
 import org.semver4j.Semver
 
 // SPDX-FileCopyrightText: Copyright © 2024 - 2025 Caleb Cushing
@@ -9,8 +10,8 @@ buildscript { dependencyLocking { lockAllConfigurations() } }
 plugins {
   `lifecycle-base`
   `version-catalog`
-  `maven-publish`
   alias(libs.plugins.semver)
+  alias(libs.plugins.publish)
 }
 
 group = "com.xenoterracide.gradle.vc"
@@ -31,6 +32,13 @@ publishing {
       from(components["versionCatalog"])
     }
   }
+}
+repositoryHost(GithubPublicRepositoryConfiguration())
+repositoryHost.namespace.set("xenoterracide")
+
+publicationLegal {
+  inceptionYear.set(2025)
+  spdxLicenseIdentifiers.add("Apache-2.0")
 }
 
 catalog {

@@ -1,6 +1,8 @@
 # This is a Gradle generated file for dependency locking.
 # Manual edits can break the build and are not advised.
 # This file is expected to be part of source control.
+com.xenoterracide.gradle.convention.publish:com.xenoterracide.gradle.convention.publish.gradle.plugin:0.3.0=classpath
+com.xenoterracide.gradle.convention:publish:0.3.0=classpath
 com.xenoterracide.gradle.semver:com.xenoterracide.gradle.semver.gradle.plugin:0.14.2=classpath
 com.xenoterracide.gradle:git:0.14.2=classpath
 com.xenoterracide.gradle:semver:0.14.2=classpath
