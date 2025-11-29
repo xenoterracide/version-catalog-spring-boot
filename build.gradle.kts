@@ -9,6 +9,7 @@ buildscript { dependencyLocking { lockAllConfigurations() } }
 
 plugins {
   `version-catalog`
+  `maven-publish`
   alias(libs.plugins.semver)
 }
 

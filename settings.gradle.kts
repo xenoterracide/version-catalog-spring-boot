@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-rootProject.name = "gradle-semver"
+rootProject.name = "gradle-version-catalog-spring"
 
 pluginManagement {
   repositories {
