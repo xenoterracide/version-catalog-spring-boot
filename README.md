@@ -22,9 +22,15 @@ dependencyResolutionManagement {
 ```kt
 // build.gradle.kts
 dependencies {
+    // or however you want we aren't generating the BOM.
+    implementation(platform("org.springframework.boot:spring-boot-dependencies:3.5.0"))
     implementation(sb.spring.boot.starter.data.jpa.test)
 }
 ```
+
+See the [version catalog documentation](https://docs.gradle.org/current/userguide/version_catalogs.html) for more details.
+
+Available libraries can be found in the [Spring Boot documentation](https://docs.spring.io/spring-boot/3.5/appendix/dependency-versions/coordinates.html). Since this catalog does not supply versions, you must still use the `spring-boot-dependencies` BOM.
 
 ## FAQ
 
