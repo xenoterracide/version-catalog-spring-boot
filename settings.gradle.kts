@@ -2,20 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-rootProject.name = "gradle-version-catalog-spring"
+rootProject.name = "version-catalog-spring-boot"
 
 pluginManagement {
   repositories {
-    maven("https://maven.pkg.github.com/xenoterracide/gradle-semver") {
-      name = "gh"
-      mavenContent {
-        includeGroup("com.xenoterracide.gradle.semver")
-        includeModule("com.xenoterracide.gradle", "semver")
-        includeGroup("com.xenoterracide.gradle.git")
-        includeModule("com.xenoterracide.gradle", "git")
-      }
-      credentials(PasswordCredentials::class)
-    }
     gradlePluginPortal()
   }
 }
@@ -37,29 +27,7 @@ develocity {
 dependencyResolutionManagement {
   repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
   rulesMode = RulesMode.FAIL_ON_PROJECT_RULES
-
   repositories {
-    maven("https://maven.pkg.github.com/xenoterracide/gradle-semver") {
-      name = "gh"
-      mavenContent {
-        includeModule("com.xenoterracide", "tools")
-      }
-      credentials(PasswordCredentials::class)
-    }
     mavenCentral()
-  }
-}
-
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-
-rootDir.resolve("module").listFiles()?.forEach { file ->
-  if (file.isDirectory &&
-    file
-      ?.list { _, name -> name.startsWith("build.gradle") }
-      ?.isNotEmpty() == true
-  ) {
-    val name = file.name
-    include(":$name")
-    project(":$name").projectDir = file("module/$name")
   }
 }

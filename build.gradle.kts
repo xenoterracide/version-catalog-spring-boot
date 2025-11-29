@@ -1,6 +1,4 @@
 import org.semver4j.Semver
-// Note: intentionally avoid strict XML parsers for lenient HTML parsing
-
 // SPDX-FileCopyrightText: Copyright © 2024 - 2025 Caleb Cushing
 //
 // SPDX-License-Identifier: MIT
@@ -13,7 +11,7 @@ plugins {
   alias(libs.plugins.semver)
 }
 
-group = "com.xenoterracide.gradle"
+group = "com.xenoterracide.gradle.vc"
 
 dependencyLocking {
   lockAllConfigurations()
