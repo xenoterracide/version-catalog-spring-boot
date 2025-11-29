@@ -6,6 +6,7 @@ import org.semver4j.Semver
 buildscript { dependencyLocking { lockAllConfigurations() } }
 
 plugins {
+  `lifecycle-base`
   `version-catalog`
   `maven-publish`
   alias(libs.plugins.semver)
