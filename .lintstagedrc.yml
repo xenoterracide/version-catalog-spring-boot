@@ -23,3 +23,6 @@
 "(*.xml|*.yml|*.yaml|*ignore|*.properties|*.toml|*.json5|*.js|.editorconfig|.gitattributes|.mailmap)":
   - "reuse annotate --license 'CC0-1.0' --copyright 'Caleb Cushing' --copyright-prefix spdx-string-symbol --merge-copyrights"
   - *prettier
+"dependencies.html":
+  - "reuse annotate --license 'Apache-2.0' --copyright 'Broadcom' --copyright-prefix spdx-string-symbol --merge-copyrights"
+  - *prettier
