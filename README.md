@@ -30,11 +30,11 @@ dependencies {
 
 ### Versions
 
-In order to make life easier the first 2 numbers of the version catalog will match the Spring Boot version. The 3rd number will be incremented for any patches or minor changes needed.
+The major and minor versions of this catalog align with the Spring Boot version. The patch version is incremented for updates to the catalog itself.
 
 ### Gradle Support
 
-Gradle Versions older than 7.2 will not work. Gradle 7.4 was the first stable release for version catalogs.
+Gradle 7.2 or later is required. Stable support for version catalogs was introduced in Gradle 7.4.
 
 ## Development
 
@@ -47,6 +47,8 @@ Gradle Versions older than 7.2 will not work. Gradle 7.4 was the first stable re
 - Python 3.11+
 
 add a way to export these to your `PATH` in your `~/.profile`
+
+if you have `asdf` installed, you can run `asdf install` to install the versions`
 
 ### Build Tools
 
