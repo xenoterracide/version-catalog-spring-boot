@@ -25,6 +25,14 @@ version =
     .flatMap { semver.provider }
     .getOrElse(Semver.ZERO)
 
+publishing {
+  publications {
+    register<MavenPublication>("maven") {
+      from(components["versionCatalog"])
+    }
+  }
+}
+
 catalog {
   // Build the version catalog programmatically from the TOON file.
   // We intentionally DO NOT declare versions here; consumers should use Spring Boot's platform/BOM
