@@ -40,7 +40,7 @@ The major and minor versions of this catalog align with the Spring Boot version.
 
 ### Gradle Support
 
-Gradle 7.2 or later is required. Stable support for version catalogs was introduced in Gradle 7.4.
+[Gradle 7.2 or later is required](https://docs.gradle.org/7.2/release-notes.html#version-catalog-improvements). Stable support for version catalogs was introduced in Gradle 7.4.
 
 ## Development
 
