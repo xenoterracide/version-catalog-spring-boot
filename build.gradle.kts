@@ -10,8 +10,9 @@ buildscript { dependencyLocking { lockAllConfigurations() } }
 plugins {
   `lifecycle-base`
   `version-catalog`
-  alias(libs.plugins.semver)
+  alias(libs.plugins.jreleaser)
   alias(libs.plugins.publish)
+  alias(libs.plugins.semver)
 }
 
 group = "com.xenoterracide.gradle.vc"
@@ -26,19 +27,40 @@ version =
     .flatMap { semver.provider }
     .getOrElse(Semver.ZERO)
 
-publishing {
-  publications {
-    register<MavenPublication>("maven") {
-      from(components["versionCatalog"])
-    }
-  }
-}
 repositoryHost(GithubPublicRepositoryConfiguration())
 repositoryHost.namespace.set("xenoterracide")
 
 publicationLegal {
   inceptionYear.set(2025)
   spdxLicenseIdentifiers.add("Apache-2.0")
+}
+
+publishing {
+  publications {
+    register<MavenPublication>("maven") {
+      from(components["versionCatalog"])
+      pom {
+        description.set("Version catalog for Spring Boot dependencies")
+        url.set(
+          repositoryHost.repository.wesiteUrl
+            .zip(git.tag.map { "/tree/$it" }.orElse("")) { uri, tag ->
+              uri.toString() + tag
+            },
+        )
+        scm { tag.set(git.tag) }
+      }
+    }
+  }
+  repositories {
+    maven {
+      name = "staging"
+      url =
+        layout.buildDirectory
+          .dir(name)
+          .map { it.asFile.toURI() }
+          .get()
+    }
+  }
 }
 
 catalog {
