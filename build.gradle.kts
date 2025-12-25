@@ -21,9 +21,13 @@ dependencyLocking {
   lockAllConfigurations()
 }
 
-version =
+val isPublishing =
   providers
     .environmentVariable("IS_PUBLISHING")
+    .map { it.toBoolean() }
+
+version =
+  isPublishing
     .flatMap { semver.provider }
     .getOrElse(Semver.ZERO)
 
@@ -67,8 +71,10 @@ signing {
   // val keyId by signingProperties
   val password by signingProperties
   val signingKey: String by project
-  useInMemoryPgpKeys(signingKey, password)
-  sign(publishing.publications["maven"])
+  if (isPublishing.getOrElse(false)) {
+    useInMemoryPgpKeys(signingKey, password)
+    sign(publishing.publications["maven"])
+  }
 }
 
 catalog {
