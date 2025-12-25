@@ -10,7 +10,7 @@ buildscript { dependencyLocking { lockAllConfigurations() } }
 plugins {
   `lifecycle-base`
   `version-catalog`
-  alias(libs.plugins.jreleaser)
+  signing
   alias(libs.plugins.publish)
   alias(libs.plugins.semver)
 }
@@ -51,16 +51,24 @@ publishing {
       }
     }
   }
-  repositories {
-    maven {
-      name = "staging"
-      url =
-        layout.buildDirectory
-          .dir(name)
-          .map { it.asFile.toURI() }
-          .get()
-    }
-  }
+}
+
+signing {
+  val prefix = "signing."
+  val signingProperties =
+    providers
+      .gradlePropertiesPrefixedBy(prefix)
+      .map {
+        it
+          .flatMap { (key, value) ->
+            listOfNotNull(key.removePrefix(prefix) to value)
+          }.toMap()
+      }.get()
+  // val keyId by signingProperties
+  val password by signingProperties
+  val signingKey: String by project
+  useInMemoryPgpKeys(signingKey, password)
+  sign(publishing.publications["maven"])
 }
 
 catalog {
