@@ -61,7 +61,7 @@ signing {
   if (isPublishing.getOrElse(false)) {
     val signingKey: String by project
     val signingPassword: String by project
-    logger.info("signing password is set {} to unlock set private key {}", signingPassword.isNotBlank(), signingKey.take(37))
+    logger.quiet("signing password is set {} to unlock set private key {}", signingPassword.isNotBlank(), signingKey.take(37))
     logger.trace("signing password is {} to unlock private key {}", signingPassword, signingKey)
     useInMemoryPgpKeys(signingKey, signingPassword)
     sign(publishing.publications["maven"])
