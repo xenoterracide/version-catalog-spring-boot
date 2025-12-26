@@ -58,21 +58,12 @@ publishing {
 }
 
 signing {
-  val prefix = "signing."
-  val signingProperties =
-    providers
-      .gradlePropertiesPrefixedBy(prefix)
-      .map {
-        it
-          .flatMap { (key, value) ->
-            listOfNotNull(key.removePrefix(prefix) to value)
-          }.toMap()
-      }.get()
-  // val keyId by signingProperties
-  val password by signingProperties
-  val signingKey: String by project
   if (isPublishing.getOrElse(false)) {
-    useInMemoryPgpKeys(signingKey, password)
+    val signingKey: String by project
+    val signingPassword: String by project
+    logger.info("signing password is set {} to unlock set private key {}", signingPassword.isNotBlank(), signingKey.take(37))
+    logger.trace("signing password is {} to unlock private key {}", signingPassword, signingKey)
+    useInMemoryPgpKeys(signingKey, signingPassword)
     sign(publishing.publications["maven"])
   }
 }

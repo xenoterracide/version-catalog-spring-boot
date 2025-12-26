@@ -20,7 +20,7 @@ jobs:
       contents: write
       packages: write
     env:
-      IS_PUBLISHING: 1
+      IS_PUBLISHING: true
     steps:
       - uses: actions/checkout@v6.0.0
         with:
