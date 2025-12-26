@@ -20,7 +20,7 @@ jobs:
       contents: write
       packages: write
     env:
-      IS_PUBLISHING: 1
+      IS_PUBLISHING: true
     steps:
       - uses: actions/checkout@v6.0.0
         with:
@@ -41,3 +41,5 @@ jobs:
         env:
           ORG_GRADLE_PROJECT_ghUsername: ${{ secrets.GITHUB_ACTOR }}
           ORG_GRADLE_PROJECT_ghPassword: ${{ secrets.GITHUB_TOKEN }}
+          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_KEY }}
+          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.SIGNING_PASSWORD }}

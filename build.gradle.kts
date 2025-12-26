@@ -10,7 +10,7 @@ buildscript { dependencyLocking { lockAllConfigurations() } }
 plugins {
   `lifecycle-base`
   `version-catalog`
-  alias(libs.plugins.jreleaser)
+  signing
   alias(libs.plugins.publish)
   alias(libs.plugins.semver)
 }
@@ -21,9 +21,13 @@ dependencyLocking {
   lockAllConfigurations()
 }
 
-version =
+val isPublishing =
   providers
     .environmentVariable("IS_PUBLISHING")
+    .map { it.toBoolean() }
+
+version =
+  isPublishing
     .flatMap { semver.provider }
     .getOrElse(Semver.ZERO)
 
@@ -51,15 +55,16 @@ publishing {
       }
     }
   }
-  repositories {
-    maven {
-      name = "staging"
-      url =
-        layout.buildDirectory
-          .dir(name)
-          .map { it.asFile.toURI() }
-          .get()
-    }
+}
+
+signing {
+  if (isPublishing.getOrElse(false)) {
+    val signingKey: String by project
+    val signingPassword: String by project
+    logger.quiet("signing password is set {} to unlock set private key {}", signingPassword.isNotBlank(), signingKey.take(37))
+    logger.trace("signing password is {} to unlock private key {}", signingPassword, signingKey)
+    useInMemoryPgpKeys(signingKey, signingPassword)
+    sign(publishing.publications["maven"])
   }
 }
 
