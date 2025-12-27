@@ -59,12 +59,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v5.0.0
         with:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
-      - run: ./gradlew publishAllPublicationsToCentralRepository --scan --no-configuration-cache
-        env:
-          ORG_GRADLE_PROJECT_centralUsername: ${{ secrets.CENTRAL_USER }}
-          ORG_GRADLE_PROJECT_centralPassword: ${{ secrets.CENTRAL_PASS }}
-          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_KEY }}
-          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.SIGNING_PASSWORD }}
+      - run: ./gradlew publishAllPublicationsToStagingRepository --scan --no-configuration-cache
       - run: ./gradlew publishAllPublicationsToCentralRepository --scan --no-configuration-cache
         env:
           ORG_GRADLE_PROJECT_centralUsername: ${{ secrets.CENTRAL_USER }}
