@@ -64,17 +64,6 @@ publishing {
       }
     }
   }
-  repositories {
-    maven {
-      name = "central"
-      url = uri("https://central.sonatype.com/api/v1/publisher/deployments/maven2/")
-      credentials(PasswordCredentials::class)
-    }
-    maven {
-      name = "staging"
-      url = uri(stagingPath)
-    }
-  }
 }
 
 signing {
