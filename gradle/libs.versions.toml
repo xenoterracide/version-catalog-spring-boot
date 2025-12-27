@@ -4,5 +4,5 @@
 
 [plugins]
 jreleaser = { id = "org.jreleaser", version = "1.+" }
-publish = { id = "com.xenoterracide.gradle.convention.publish", version = "0.3.+" }
+publish = { id = "com.xenoterracide.gradle.convention.publish", version = "0.4.+" }
 semver = { id = "com.xenoterracide.gradle.semver", version = "0.+" }
