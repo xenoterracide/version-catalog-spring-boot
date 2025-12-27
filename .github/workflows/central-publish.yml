@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: CC0-1.0
 
-name: publish-to-gradle-plugin-portal
+name: publish-to-maven-central
 on:
   workflow_run:
     workflows: [full]
@@ -33,8 +33,10 @@ jobs:
       - uses: gradle/actions/setup-gradle@v5.0.0
         with:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
-      - run: ./gradlew assemble
-      - run: gh release create ${{ github.event.workflow_run.head_branch }} --generate-notes module/*/build/libs/*.jar --verify-tag
+      - run: ./gradlew publishAllPublicationsToStagingRepository
+      - run: |
+          export STAGING=$(printf "%s" $(./gradlew stagingPath --quiet))
+          gh release create ${{ github.event.workflow_run.head_branch }} --generate-notes $STAGING/* --verify-tag
         env:
           GH_TOKEN: ${{ github.token }}
   publish-to-central:

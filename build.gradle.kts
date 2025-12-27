@@ -31,6 +31,34 @@ version =
     .flatMap { semver.provider }
     .getOrElse(Semver.ZERO)
 
+val stagingPath = layout.buildDirectory.dir("repo")
+
+tasks.register("version") {
+  description = "Print version"
+  group = "Help"
+  val setVersion = version
+  actions.add { println(setVersion.toString()) }
+}
+
+tasks.register("stagingPath") {
+  description = "Print path to staging repository for the primary publication"
+  group = "Publishing"
+  val stagingDir = stagingPath
+  val groupPath = project.group.toString().replace(".", "/")
+  val artifactId = project.name
+  val setVersion = version
+
+  actions.add {
+    println(
+      stagingDir
+        .get()
+        .asFile
+        .resolve("$groupPath/$artifactId/$setVersion")
+        .absolutePath,
+    )
+  }
+}
+
 repositoryHost(GithubPublicRepositoryConfiguration())
 repositoryHost.namespace.set("xenoterracide")
 
@@ -63,7 +91,7 @@ publishing {
     }
     maven {
       name = "staging"
-      url = uri(layout.buildDirectory.dir("repo"))
+      url = uri(stagingPath)
     }
   }
 }
@@ -72,7 +100,7 @@ signing {
   if (isPublishing.getOrElse(false)) {
     val signingKey: String by project
     val signingPassword: String by project
-    logger.quiet("signing password is set {} to unlock set private key {}", signingPassword.isNotBlank(), signingKey.take(37))
+    logger.info("signing password is set {} to unlock set private key {}", signingPassword.isNotBlank(), signingKey.take(37))
     logger.trace("signing password is {} to unlock private key {}", signingPassword, signingKey)
     useInMemoryPgpKeys(signingKey, signingPassword)
     sign(publishing.publications["maven"])
