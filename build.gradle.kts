@@ -13,6 +13,7 @@ plugins {
   signing
   alias(libs.plugins.publish)
   alias(libs.plugins.semver)
+  alias(libs.plugins.jreleaser)
 }
 
 group = "com.xenoterracide.gradle.vc"
@@ -40,25 +41,6 @@ tasks.register("version") {
   actions.add { println(setVersion.toString()) }
 }
 
-tasks.register("stagingPath") {
-  description = "Print path to staging repository for the primary publication"
-  group = "Publishing"
-  val stagingDir = stagingPath
-  val groupPath = project.group.toString().replace(".", "/")
-  val artifactId = project.name
-  val setVersion = version
-
-  actions.add {
-    println(
-      stagingDir
-        .get()
-        .asFile
-        .resolve("$groupPath/$artifactId/$setVersion")
-        .absolutePath,
-    )
-  }
-}
-
 repositoryHost(GithubPublicRepositoryConfiguration())
 repositoryHost.namespace.set("xenoterracide")
 
@@ -74,24 +56,13 @@ publishing {
       pom {
         description.set("Version catalog for Spring Boot dependencies")
         url.set(
-          repositoryHost.repository.wesiteUrl
+          repositoryHost.repository.websiteUrl
             .zip(git.tag.map { "/tree/$it" }.orElse("")) { uri, tag ->
               uri.toString() + tag
             },
         )
         scm { tag.set(git.tag) }
       }
-    }
-  }
-  repositories {
-    maven {
-      name = "central"
-      url = uri("https://central.sonatype.com/api/v1/publisher/deployments/maven2/")
-      credentials(PasswordCredentials::class)
-    }
-    maven {
-      name = "staging"
-      url = uri(stagingPath)
     }
   }
 }
@@ -104,6 +75,30 @@ signing {
     logger.trace("signing password is {} to unlock private key {}", signingPassword, signingKey)
     useInMemoryPgpKeys(signingKey, signingPassword)
     sign(publishing.publications["maven"])
+  }
+}
+
+jreleaser {
+  project {
+    inceptionYear.set("2025")
+    description.set("Version catalog for Spring Boot dependencies")
+  }
+  signing {
+    active.set(org.jreleaser.model.Active.ALWAYS)
+    armored.set(true)
+    verify.set(false)
+  }
+  deploy {
+    maven {
+      mavenCentral {
+        register("sonatype") {
+          active.set(org.jreleaser.model.Active.ALWAYS)
+          url.set("https://central.sonatype.com/api/v1/publisher/deployments/maven2")
+          stagingRepositories.add(stagingPath.get().toString())
+          retryDelay.set(60)
+        }
+      }
+    }
   }
 }
 

@@ -60,9 +60,10 @@ jobs:
         with:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
       - run: ./gradlew publishAllPublicationsToStagingRepository --scan --no-configuration-cache
-      - run: ./gradlew publishAllPublicationsToCentralRepository --scan --no-configuration-cache
+      - run: ./gradlew jreleaserDeploy --scan --no-configuration-cache
         env:
-          ORG_GRADLE_PROJECT_centralUsername: ${{ secrets.CENTRAL_USER }}
-          ORG_GRADLE_PROJECT_centralPassword: ${{ secrets.CENTRAL_PASS }}
-          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_KEY }}
-          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.SIGNING_PASSWORD }}
+          JRELEASER_SONATYPE_USERNAME: ${{ secrets.CENTRAL_USER }}
+          JRELEASER_SONATYPE_PASSWORD: ${{ secrets.CENTRAL_PASS }}
+          JRELEASER_GPG_PASSPHRASE: ${{ secrets.SIGNING_PASSWORD }}
+          JRELEASER_GPG_SECRET_KEY: ${{ secrets.SIGNING_KEY }}
+          JRELEASER_GPG_PUBLIC_KEY: ${{ secrets.SIGNING_PUBLIC_KEY }}
