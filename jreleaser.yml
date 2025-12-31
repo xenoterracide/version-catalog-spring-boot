@@ -1,0 +1,52 @@
+# SPDX-FileCopyrightText: Copyright © 2025 Caleb Cushing
+#
+# SPDX-License-Identifier: CC0-1.0
+
+# Generated with JReleaser 1.22.0 at 2025-12-31T12:28:47.052437157-05:00
+project:
+  description: Version catalog for Spring Boot dependencies
+  inceptionYear: "2025"
+  authors:
+    - Caleb Cushing
+  license: Apache-2.0
+  links:
+    vcsBrowser: &github https://github.com/xenoterracide/version-catalog-spring-boot
+    homepage: *github
+    documentation: *github
+    bugTracker: https://github.com/xenoterracide/version-catalog-spring-boot/issues
+    license: https://choosealicense.com/licenses/apache-2.0/
+
+  languages:
+    java:
+      groupId: com.xenoterracide.gradle.vc
+  tags:
+    - gradle
+    - version catalog
+    - spring boot
+  stereotype: NONE
+
+release:
+  github:
+    owner: xenoterracide
+    name: version-catalog-spring-boot
+
+signing:
+  active: ALWAYS
+  publicKey: 8042ED9A
+
+deploy:
+  maven:
+    github:
+      github:
+        active: ALWAYS
+        url: https://maven.pkg.github.com/xenoterracide/version-catalog-spring-boot
+        stagingRepositories:
+          - build/repo
+        snapshotSupported: true
+    mavenCentral:
+      sonatype:
+        active: ALWAYS
+        url: https://central.sonatype.com/api/v1/publisher/deployments/maven2
+        stagingRepositories:
+          - build/repo
+        retryDelay: 60

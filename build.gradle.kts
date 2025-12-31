@@ -10,10 +10,8 @@ buildscript { dependencyLocking { lockAllConfigurations() } }
 plugins {
   `lifecycle-base`
   `version-catalog`
-  signing
   alias(libs.plugins.publish)
   alias(libs.plugins.semver)
-  alias(libs.plugins.jreleaser)
 }
 
 group = "com.xenoterracide.gradle.vc"
@@ -62,41 +60,6 @@ publishing {
             },
         )
         scm { tag.set(git.tag) }
-      }
-    }
-  }
-}
-
-signing {
-  if (isPublishing.getOrElse(false)) {
-    val signingKey: String by project
-    val signingPassword: String by project
-    logger.info("signing password is set {} to unlock set private key {}", signingPassword.isNotBlank(), signingKey.take(37))
-    logger.trace("signing password is {} to unlock private key {}", signingPassword, signingKey)
-    useInMemoryPgpKeys(signingKey, signingPassword)
-    sign(publishing.publications["maven"])
-  }
-}
-
-jreleaser {
-  project {
-    inceptionYear.set("2025")
-    description.set("Version catalog for Spring Boot dependencies")
-  }
-  signing {
-    active.set(org.jreleaser.model.Active.ALWAYS)
-    armored.set(true)
-    verify.set(false)
-  }
-  deploy {
-    maven {
-      mavenCentral {
-        register("sonatype") {
-          active.set(org.jreleaser.model.Active.ALWAYS)
-          url.set("https://central.sonatype.com/api/v1/publisher/deployments/maven2")
-          stagingRepositories.add(stagingPath.get().toString())
-          retryDelay.set(60)
-        }
       }
     }
   }
