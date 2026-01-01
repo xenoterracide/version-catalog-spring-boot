@@ -1,7 +1,7 @@
 import com.xenoterracide.gradle.convention.publish.GithubPublicRepositoryConfiguration
 import org.semver4j.Semver
 
-// SPDX-FileCopyrightText: Copyright © 2024 - 2025 Caleb Cushing
+// SPDX-FileCopyrightText: Copyright © 2024 - 2026 Caleb Cushing
 //
 // SPDX-License-Identifier: MIT
 
@@ -35,8 +35,13 @@ val stagingPath = layout.buildDirectory.dir("repo")
 tasks.register("version") {
   description = "Print version"
   group = "Help"
-  val setVersion = version
-  actions.add { println(setVersion.toString()) }
+
+  // Print the SemVer plugin's computed version, independent of `project.version`.
+  // Use task inputs + Provider wiring for configuration-cache friendliness.
+  val semverText = semver.provider.map { it.toString() }.orElse(Semver.ZERO.toString())
+  inputs.property("semver", semverText)
+
+  doLast { println(semverText.get()) }
 }
 
 repositoryHost(GithubPublicRepositoryConfiguration())
