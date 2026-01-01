@@ -32,18 +32,6 @@ version =
 
 val stagingPath = layout.buildDirectory.dir("repo")
 
-tasks.register("version") {
-  description = "Print version"
-  group = "Help"
-
-  // Print the SemVer plugin's computed version, independent of `project.version`.
-  // Use task inputs + Provider wiring for configuration-cache friendliness.
-  val semverText = semver.provider.map { it.toString() }.orElse(Semver.ZERO.toString())
-  inputs.property("semver", semverText)
-
-  doLast { println(semverText.get()) }
-}
-
 repositoryHost(GithubPublicRepositoryConfiguration())
 repositoryHost.namespace.set("xenoterracide")
 
