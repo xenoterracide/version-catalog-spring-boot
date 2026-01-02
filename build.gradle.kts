@@ -1,7 +1,7 @@
 import com.xenoterracide.gradle.convention.publish.GithubPublicRepositoryConfiguration
 import org.semver4j.Semver
 
-// SPDX-FileCopyrightText: Copyright © 2024 - 2025 Caleb Cushing
+// SPDX-FileCopyrightText: Copyright © 2024 - 2026 Caleb Cushing
 //
 // SPDX-License-Identifier: MIT
 
@@ -32,13 +32,6 @@ version =
     .getOrElse(Semver.ZERO)
 
 val stagingPath = layout.buildDirectory.dir("repo")
-
-tasks.register("version") {
-  description = "Print version"
-  group = "Help"
-  val setVersion = version
-  actions.add { println(setVersion.toString()) }
-}
 
 repositoryHost(GithubPublicRepositoryConfiguration())
 repositoryHost.namespace.set("xenoterracide")
