@@ -10,7 +10,6 @@ buildscript { dependencyLocking { lockAllConfigurations() } }
 plugins {
   `lifecycle-base`
   `version-catalog`
-  signing
   alias(libs.plugins.publish)
   alias(libs.plugins.semver)
 }
