@@ -23,14 +23,11 @@ dependencyLocking {
 val isPublishing =
   providers
     .environmentVariable("IS_PUBLISHING")
-    .map { it.toBoolean() }
 
 version =
   isPublishing
     .flatMap { semver.provider }
     .getOrElse(Semver.ZERO)
-
-val stagingPath = layout.buildDirectory.dir("repo")
 
 repositoryHost(GithubPublicRepositoryConfiguration())
 repositoryHost.namespace.set("xenoterracide")

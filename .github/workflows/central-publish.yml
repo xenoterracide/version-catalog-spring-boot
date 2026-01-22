@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: Copyright © 2024 - 2025 Caleb Cushing
+# SPDX-FileCopyrightText: Copyright © 2024 - 2026 Caleb Cushing
 #
 # SPDX-License-Identifier: CC0-1.0
 
@@ -60,10 +60,10 @@ jobs:
         with:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
       - run: ./gradlew publishAllPublicationsToStagingRepository --scan --no-configuration-cache
-      - run: ./gradlew jreleaserDeploy --scan --no-configuration-cache
+      - uses: jreleaser/release-action@v2
+      - run: jreleaser deploy --config-file jreleaser.yml
         env:
           JRELEASER_SONATYPE_USERNAME: ${{ secrets.CENTRAL_USER }}
           JRELEASER_SONATYPE_PASSWORD: ${{ secrets.CENTRAL_PASS }}
           JRELEASER_GPG_PASSPHRASE: ${{ secrets.SIGNING_PASSWORD }}
           JRELEASER_GPG_SECRET_KEY: ${{ secrets.SIGNING_KEY }}
-          JRELEASER_GPG_PUBLIC_KEY: ${{ secrets.SIGNING_PUBLIC_KEY }}
