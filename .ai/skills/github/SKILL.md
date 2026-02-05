@@ -12,4 +12,4 @@ allowed-tools: gh
 ---
 
 - use the GitHub command line tool `gh`
-- disable pagination GH_PAGER=cat
+- disable pagination `GH_PAGER=cat`
