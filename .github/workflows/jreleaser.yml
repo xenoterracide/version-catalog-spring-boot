@@ -20,7 +20,6 @@ jobs:
       - uses: actions/checkout@v6.0.0
         with:
           # head sha is always the latest commit but head branch has the name we need for publishing
-          ref: ${{ github.event.workflow_run.head_branch }}
           filter: "blob:none"
           fetch-depth: 0
       # Ensure the remote default branch is set so tools relying on origin/HEAD behave consistently.
