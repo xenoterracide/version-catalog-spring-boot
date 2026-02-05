@@ -34,7 +34,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v5.0.0
         with:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
-      - run: ./gradlew jreleaserConfig jreleaserFullRelease --deployer github --no-configuration-cache --console=plain --info --scan
+      - run: ./gradlew jreleaserConfig jreleaserFullRelease --deployer github --no-configuration-cache --console=plain --debug--scan
         env:
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JRELEASER_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
