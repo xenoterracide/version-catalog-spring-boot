@@ -1,4 +1,5 @@
 import com.xenoterracide.gradle.convention.publish.GithubPublicRepositoryConfiguration
+import org.jreleaser.model.Signing
 import org.semver4j.Semver
 
 // SPDX-FileCopyrightText: Copyright © 2024-2026 Caleb Cushing
@@ -12,6 +13,7 @@ plugins {
   `version-catalog`
   alias(libs.plugins.publish)
   alias(libs.plugins.semver)
+  alias(libs.plugins.jreleaser)
 }
 
 group = "com.xenoterracide.gradle.vc"
@@ -37,6 +39,33 @@ publicationLegal {
   spdxLicenseIdentifiers.add("Apache-2.0")
 }
 
+jreleaser {
+  project {
+    version.set(this.version)
+    tag(git.tag.orNull)
+  }
+  release {
+    github {
+      repoOwner.set("xenoterracide")
+      name.set(project.name)
+    }
+  }
+  signing {
+    pgp {
+      armored.set(true)
+      mode.set(Signing.Mode.MEMORY)
+    }
+  }
+  deploy {
+    maven {
+      github {
+        create("gh") {
+          sign.set(true)
+        }
+      }
+    }
+  }
+}
 publishing {
   publications {
     create<MavenPublication>("maven") {
