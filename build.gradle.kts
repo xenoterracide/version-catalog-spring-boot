@@ -38,7 +38,6 @@ publicationLegal {
   inceptionYear.set(2025)
   spdxLicenseIdentifiers.add("Apache-2.0")
 }
-
 jreleaser {
   release {
     github {
