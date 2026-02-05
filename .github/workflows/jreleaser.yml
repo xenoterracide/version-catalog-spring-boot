@@ -33,7 +33,7 @@ jobs:
         with:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
       - run: |
-          VERSION=$(./gradlew assemble version --quiet --console=plain)
+          VERSION=$(./gradlew publishAllPublicationsToStagingRepository version --quiet --console=plain)
           echo -n JRELEASER_PROJECT_VERSION=$VERSION >> $GITHUB_ENV
       - uses: jreleaser/release-action@v2
         env:
