@@ -42,8 +42,6 @@ publishing {
     create<MavenPublication>("maven") {
       from(components["versionCatalog"])
       pom {
-        packaging = "pom"
-        description.set("Version catalog for Spring Boot dependencies")
         url.set(
           repositoryHost.repository.websiteUrl
             .zip(git.tag.map { "/tree/$it" }.orElse("")) { uri, tag ->
