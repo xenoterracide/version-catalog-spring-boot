@@ -4,6 +4,9 @@
 
 name: publish-to-github-packages
 on:
+  push:
+    branches:
+      - "!develop"
   workflow_run:
     workflows: [build]
     types: [completed]
