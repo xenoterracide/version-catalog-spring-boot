@@ -17,6 +17,7 @@ jobs:
       packages: write
     env:
       IS_PUBLISHING: true
+      JRELEASER_LOG_LEVEL: debug
     steps:
       - uses: actions/checkout@v6.0.0
         with:
@@ -32,7 +33,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v5.0.0
         with:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
-      - run: ./gradlew jreleaserFullRelease --deployer github --debug --no-configuration-cache --scan
+      - run: ./gradlew jreleaserFullRelease --deployer github --no-configuration-cache --scan
         env:
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JRELEASER_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}

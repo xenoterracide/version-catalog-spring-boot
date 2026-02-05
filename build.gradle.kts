@@ -39,6 +39,9 @@ publicationLegal {
   spdxLicenseIdentifiers.add("Apache-2.0")
 }
 jreleaser {
+  project {
+    version.set(project.version)
+  }
   release {
     github {
       skipTag = true
