@@ -1,0 +1,48 @@
+# SPDX-FileCopyrightText: Copyright © 2024-2026 Caleb Cushing
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: jreleaser
+on:
+  push:
+    branches:
+      - "!develop"
+  workflow_run:
+    workflows: [build]
+    types: [completed]
+    branches:
+      - "**"
+      - "!renovate/**"
+      - "!deps/**"
+jobs:
+  publish:
+    if: github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+      packages: write
+    env:
+      IS_PUBLISHING: true
+    steps:
+      - uses: actions/checkout@v6.0.0
+        with:
+          # head sha is always the latest commit but head branch has the name we need for publishing
+          ref: ${{ github.event.workflow_run.head_branch }}
+          filter: "blob:none"
+          fetch-depth: 0
+      # Ensure the remote default branch is set so tools relying on origin/HEAD behave consistently.
+      - run: git remote set-head --auto origin
+      - uses: actions/setup-java@v5.0.0
+        with:
+          distribution: temurin
+          java-version: 21
+      - uses: gradle/actions/setup-gradle@v5.0.0
+        with:
+          cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+      - run: |
+          VERSION = $(./gradlew assemble version --quiet --console=plain)
+          echo JRELEASER_PROJECT_VERSION=$VERSION >> $GITHUB_ENV
+      - uses: jreleaser/release-action@v2
+        env:
+          JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
