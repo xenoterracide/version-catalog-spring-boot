@@ -42,14 +42,17 @@ publicationLegal {
 jreleaser {
   release {
     github {
+      skipTag = true
       repoOwner.set("xenoterracide")
       name.set(project.name)
+      enabled.set(true)
     }
   }
   signing {
     pgp {
       armored.set(true)
       mode.set(Signing.Mode.MEMORY)
+      enabled.set(true)
     }
   }
   deploy {
