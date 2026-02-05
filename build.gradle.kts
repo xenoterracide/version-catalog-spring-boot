@@ -1,7 +1,7 @@
 import com.xenoterracide.gradle.convention.publish.GithubPublicRepositoryConfiguration
 import org.semver4j.Semver
 
-// SPDX-FileCopyrightText: Copyright © 2024 - 2026 Caleb Cushing
+// SPDX-FileCopyrightText: Copyright © 2024-2026 Caleb Cushing
 //
 // SPDX-License-Identifier: MIT
 
@@ -39,9 +39,10 @@ publicationLegal {
 
 publishing {
   publications {
-    register<MavenPublication>("maven") {
+    create<MavenPublication>("maven") {
       from(components["versionCatalog"])
       pom {
+        packaging = "toml"
         description.set("Version catalog for Spring Boot dependencies")
         url.set(
           repositoryHost.repository.websiteUrl
