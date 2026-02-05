@@ -50,7 +50,7 @@ jreleaser {
     }
   }
   signing {
-    this.active.set(Active.ALWAYS)
+    active.set(Active.ALWAYS)
     pgp {
       armored.set(true)
       mode.set(Signing.Mode.MEMORY)
