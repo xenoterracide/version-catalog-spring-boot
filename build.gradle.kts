@@ -42,7 +42,7 @@ publishing {
     create<MavenPublication>("maven") {
       from(components["versionCatalog"])
       pom {
-        packaging = "toml"
+        packaging = "pom"
         description.set("Version catalog for Spring Boot dependencies")
         url.set(
           repositoryHost.repository.websiteUrl
