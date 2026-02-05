@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: Copyright © 2024 - 2025 Caleb Cushing
+# SPDX-FileCopyrightText: Copyright © 2024-2026 Caleb Cushing
 #
 # SPDX-License-Identifier: CC0-1.0
 
@@ -37,9 +37,9 @@ jobs:
       - uses: gradle/actions/setup-gradle@v5.0.0
         with:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
-      - run: ./gradlew publishAllPublicationsToGhRepository --scan --no-configuration-cache
+      - run: |
+          VERSION = $(./gradlew assemble version --quiet --console=plain)
+          echo JRELEASER_PROJECT_VERSION=$VERSION >> $GITHUB_ENV
+      - uses: jreleaser/release-action@v2
         env:
-          ORG_GRADLE_PROJECT_ghUsername: ${{ secrets.GITHUB_ACTOR }}
-          ORG_GRADLE_PROJECT_ghPassword: ${{ secrets.GITHUB_TOKEN }}
-          ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_KEY }}
-          ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.SIGNING_PASSWORD }}
+          JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
