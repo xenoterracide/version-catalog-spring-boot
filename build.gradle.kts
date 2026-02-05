@@ -1,4 +1,5 @@
 import com.xenoterracide.gradle.convention.publish.GithubPublicRepositoryConfiguration
+import org.jreleaser.model.Active
 import org.jreleaser.model.Signing
 import org.semver4j.Semver
 
@@ -49,6 +50,7 @@ jreleaser {
     }
   }
   signing {
+    this.active.set(Active.ALWAYS)
     pgp {
       armored.set(true)
       mode.set(Signing.Mode.MEMORY)
