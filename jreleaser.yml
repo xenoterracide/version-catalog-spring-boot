@@ -32,6 +32,8 @@ release:
 
 signing:
   active: ALWAYS
+  armored: true
+  mode: MEMORY
 
 deploy:
   maven:
@@ -39,13 +41,14 @@ deploy:
       github:
         active: ALWAYS
         url: https://maven.pkg.github.com/xenoterracide/version-catalog-spring-boot
+        sign: true
         stagingRepositories:
           - build/repo
-        snapshotSupported: true
     mavenCentral:
       sonatype:
         active: NEVER
         url: https://central.sonatype.com/api/v1/publisher/deployments/maven2
+        sign: true
         stagingRepositories:
           - build/repo
         retryDelay: 60
