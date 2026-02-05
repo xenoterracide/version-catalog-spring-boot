@@ -40,10 +40,6 @@ publicationLegal {
 }
 
 jreleaser {
-  project {
-    version.set(this.version)
-    tag(git.tag.orNull)
-  }
   release {
     github {
       repoOwner.set("xenoterracide")
