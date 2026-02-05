@@ -32,11 +32,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v5.0.0
         with:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
-      - run: |
-          ./gradlew publishAllPublicationsToStagingRepository --console=plain --scan
-          VERSION=$(./gradlew version --quiet --console=plain)
-          echo -n JRELEASER_PROJECT_VERSION=$VERSION >> $GITHUB_ENV
-      - uses: jreleaser/release-action@v2
+      - run: ./gradlew fullRelease --deployer github --scan
         env:
           JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           JRELEASER_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
