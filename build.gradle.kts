@@ -41,6 +41,7 @@ publicationLegal {
 jreleaser {
   release {
     github {
+      sign.set(true)
       skipTag = true
       repoOwner.set("xenoterracide")
       name.set(project.name)
