@@ -6,6 +6,7 @@ name: jreleaser
 on:
   push:
     branches:
+      - "**"
       - "!develop"
 jobs:
   publish:
