@@ -35,4 +35,4 @@ jobs:
         with:
           cache-read-only: true
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
-      - run: ./gradlew build --console=plain --no-build-cache --no-configuration-cache --rerun-tasks --scan
+      - run: ./gradlew build --console=plain --no-build-cache --no-configuration-cache --rerun-tasks
