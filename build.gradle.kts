@@ -41,7 +41,7 @@ publicationLegal {
 
 mavenPublishing {
   signAllPublications()
-  configure<VersionCatalog> {}
+  configure(VersionCatalog())
 }
 
 publishing {
