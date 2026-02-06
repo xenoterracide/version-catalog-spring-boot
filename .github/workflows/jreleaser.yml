@@ -7,7 +7,6 @@ on:
   push:
     branches:
       - "**"
-      - "!develop"
 jobs:
   publish:
     runs-on: ubuntu-22.04
