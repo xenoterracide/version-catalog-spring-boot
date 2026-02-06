@@ -32,7 +32,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v5.0.0
         with:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
-      - run: ./gradlew publishAllPublicationsToGhRepository --debug
+      - run: ./gradlew publishAllPublicationsToGhRepository --info
         env:
           ORG_GRADLE_PROJECT_ghUsername: ${{ secrets.GITHUB_ACTOR }}
           ORG_GRADLE_PROJECT_ghPassword: ${{ secrets.GITHUB_TOKEN }}
