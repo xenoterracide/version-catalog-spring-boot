@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: CC0-1.0
 
-name: publish-to-github-packages
+name: publish-ng
 on:
   push:
 jobs:
