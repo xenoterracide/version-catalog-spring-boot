@@ -32,6 +32,8 @@ version =
     .flatMap { semver.provider }
     .getOrElse(Semver.ZERO)
 
+description = "Spring Boot Version Catalog - All Dependencies"
+
 repositoryHost(GithubPublicRepositoryConfiguration())
 repositoryHost.namespace.set("xenoterracide")
 
@@ -45,7 +47,23 @@ mavenPublishing {
   configure(VersionCatalog())
   publishToMavenCentral(false, DeploymentValidation.VALIDATED)
 }
-
+publishing {
+  publications {
+    this.withType<MavenPublication>().configureEach {
+      pom {
+        name.set(project.name)
+        description.set(project.description)
+        url.set(
+          repositoryHost.repository.websiteUrl
+            .zip(git.tag.map { "/tree/$it" }.orElse("")) { uri, tag ->
+              uri.toString() + tag
+            },
+        )
+        scm { tag.set(git.tag) }
+      }
+    }
+  }
+}
 catalog {
   // Build the version catalog programmatically from the TOON file.
   // We intentionally DO NOT declare versions here; consumers should use Spring Boot's platform/BOM
