@@ -66,6 +66,10 @@ jreleaser {
       }
     }
   }
+  distributions {
+    create("toml") {
+    }
+  }
 }
 publishing {
   publications {
