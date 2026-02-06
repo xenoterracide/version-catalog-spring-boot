@@ -5,6 +5,8 @@
 name: publish-ng
 on:
   push:
+    branches:
+      - "**"
 jobs:
   publish:
     if: github.event.workflow_run.conclusion == 'success'
