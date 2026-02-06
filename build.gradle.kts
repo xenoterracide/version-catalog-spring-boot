@@ -38,6 +38,10 @@ publicationLegal {
   spdxLicenseIdentifiers.add("Apache-2.0")
 }
 
+mavenPublishing {
+  signAllPublications()
+}
+
 publishing {
 //  publications {
 //    create<MavenPublication>("maven") {
