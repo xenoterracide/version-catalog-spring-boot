@@ -43,7 +43,7 @@ publicationLegal {
 }
 
 mavenPublishing {
-  // signAllPublications()
+  signAllPublications()
   configure(VersionCatalog())
   publishToMavenCentral(false, DeploymentValidation.VALIDATED)
 }
