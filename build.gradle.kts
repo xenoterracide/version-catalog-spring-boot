@@ -1,7 +1,9 @@
+import com.vanniktech.maven.publish.DeploymentValidation
+import com.vanniktech.maven.publish.VersionCatalog
 import com.xenoterracide.gradle.convention.publish.GithubPublicRepositoryConfiguration
 import org.semver4j.Semver
 
-// SPDX-FileCopyrightText: Copyright © 2024 - 2026 Caleb Cushing
+// SPDX-FileCopyrightText: Copyright © 2024-2026 Caleb Cushing
 //
 // SPDX-License-Identifier: MIT
 
@@ -12,6 +14,7 @@ plugins {
   `version-catalog`
   alias(libs.plugins.publish)
   alias(libs.plugins.semver)
+  alias(libs.plugins.vanniktech.maven.publish)
 }
 
 group = "com.xenoterracide.gradle.vc"
@@ -23,14 +26,13 @@ dependencyLocking {
 val isPublishing =
   providers
     .environmentVariable("IS_PUBLISHING")
-    .map { it.toBoolean() }
 
 version =
   isPublishing
     .flatMap { semver.provider }
     .getOrElse(Semver.ZERO)
 
-val stagingPath = layout.buildDirectory.dir("repo")
+description = "Spring Boot Version Catalog - All Dependencies"
 
 repositoryHost(GithubPublicRepositoryConfiguration())
 repositoryHost.namespace.set("xenoterracide")
@@ -40,12 +42,17 @@ publicationLegal {
   spdxLicenseIdentifiers.add("Apache-2.0")
 }
 
+mavenPublishing {
+  signAllPublications()
+  configure(VersionCatalog())
+  publishToMavenCentral(false, DeploymentValidation.VALIDATED)
+}
 publishing {
   publications {
-    register<MavenPublication>("maven") {
-      from(components["versionCatalog"])
+    this.withType<MavenPublication>().configureEach {
       pom {
-        description.set("Version catalog for Spring Boot dependencies")
+        name.set(project.name)
+        description.set(project.description)
         url.set(
           repositoryHost.repository.websiteUrl
             .zip(git.tag.map { "/tree/$it" }.orElse("")) { uri, tag ->
@@ -57,7 +64,6 @@ publishing {
     }
   }
 }
-
 catalog {
   // Build the version catalog programmatically from the TOON file.
   // We intentionally DO NOT declare versions here; consumers should use Spring Boot's platform/BOM
