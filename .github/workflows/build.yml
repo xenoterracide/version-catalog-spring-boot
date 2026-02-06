@@ -6,14 +6,11 @@ name: build
 on: [push, workflow_call]
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     timeout-minutes: 10
     permissions:
       contents: write
       packages: read
-    env:
-      ORG_GRADLE_PROJECT_ghUsername: ${{ github.actor }}
-      ORG_GRADLE_PROJECT_ghPassword: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v6.0.1
         with:
@@ -28,4 +25,7 @@ jobs:
         with:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
       - run: ./gradlew build --console=plain
+        env:
+          ORG_GRADLE_PROJECT_ghUsername: ${{ github.actor }}
+          ORG_GRADLE_PROJECT_ghPassword: ${{ github.token }}
       - uses: gradle/actions/dependency-submission@v5.0.0
