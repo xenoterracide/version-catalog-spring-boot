@@ -1,3 +1,4 @@
+import com.vanniktech.maven.publish.DeploymentValidation
 import com.vanniktech.maven.publish.VersionCatalog
 import com.xenoterracide.gradle.convention.publish.GithubPublicRepositoryConfiguration
 import org.semver4j.Semver
@@ -42,6 +43,7 @@ publicationLegal {
 mavenPublishing {
   signAllPublications()
   configure(VersionCatalog())
+  publishToMavenCentral(false, DeploymentValidation.VALIDATED)
 }
 
 publishing {
