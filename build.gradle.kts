@@ -1,6 +1,4 @@
 import com.xenoterracide.gradle.convention.publish.GithubPublicRepositoryConfiguration
-import org.jreleaser.model.Active
-import org.jreleaser.model.Signing
 import org.semver4j.Semver
 
 // SPDX-FileCopyrightText: Copyright © 2024-2026 Caleb Cushing
@@ -14,7 +12,7 @@ plugins {
   `version-catalog`
   alias(libs.plugins.publish)
   alias(libs.plugins.semver)
-  alias(libs.plugins.jreleaser)
+  alias(libs.plugins.vanniktech.maven.publish)
 }
 
 group = "com.xenoterracide.gradle.vc"
@@ -39,53 +37,22 @@ publicationLegal {
   inceptionYear.set(2025)
   spdxLicenseIdentifiers.add("Apache-2.0")
 }
-jreleaser {
-  release {
-    github {
-      sign.set(true)
-      skipTag = true
-      repoOwner.set("xenoterracide")
-      name.set(project.name)
-      enabled.set(true)
-    }
-  }
-  signing {
-    active.set(Active.ALWAYS)
-    pgp {
-      armored.set(true)
-      mode.set(Signing.Mode.MEMORY)
-      enabled.set(true)
-    }
-  }
-  deploy {
-    maven {
-      github {
-        create("gh") {
-          sign.set(true)
-        }
-      }
-    }
-  }
-  distributions {
-    create("toml") {
-    }
-  }
-}
+
 publishing {
-  publications {
-    create<MavenPublication>("maven") {
-      from(components["versionCatalog"])
-      pom {
-        url.set(
-          repositoryHost.repository.websiteUrl
-            .zip(git.tag.map { "/tree/$it" }.orElse("")) { uri, tag ->
-              uri.toString() + tag
-            },
-        )
-        scm { tag.set(git.tag) }
-      }
-    }
-  }
+//  publications {
+//    create<MavenPublication>("maven") {
+//      from(components["versionCatalog"])
+//      pom {
+//        url.set(
+//          repositoryHost.repository.websiteUrl
+//            .zip(git.tag.map { "/tree/$it" }.orElse("")) { uri, tag ->
+//              uri.toString() + tag
+//            },
+//        )
+//        scm { tag.set(git.tag) }
+//      }
+//    }
+//  }
 }
 
 catalog {

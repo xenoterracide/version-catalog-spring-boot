@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: Copyright © 2024 - 2026 Caleb Cushing
+# SPDX-FileCopyrightText: Copyright © 2024-2026 Caleb Cushing
 #
 # SPDX-License-Identifier: CC0-1.0
 
@@ -6,3 +6,4 @@
 jreleaser = { id = "org.jreleaser", version = "1.+" }
 publish = { id = "com.xenoterracide.gradle.convention.publish", version = "0.5.+" }
 semver = { id = "com.xenoterracide.gradle.semver", version = "0.15.+" }
+vanniktech-maven-publish = { id = "com.vanniktech.maven.publish", version = "0.+" }

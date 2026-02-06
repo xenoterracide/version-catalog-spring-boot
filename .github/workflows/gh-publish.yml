@@ -5,8 +5,6 @@
 name: publish-to-github-packages
 on:
   push:
-    branches:
-      - "!develop"
   workflow_run:
     workflows: [build]
     types: [completed]
@@ -40,9 +38,4 @@ jobs:
       - uses: gradle/actions/setup-gradle@v5.0.0
         with:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
-      - run: |
-          VERSION = $(./gradlew assemble version --quiet --console=plain)
-          echo JRELEASER_PROJECT_VERSION=$VERSION >> $GITHUB_ENV
-      - uses: jreleaser/release-action@v2
-        env:
-          JRELEASER_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: ./gradlew publishMavenPublicationToGhRepository
