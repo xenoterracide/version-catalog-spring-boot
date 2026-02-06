@@ -54,6 +54,7 @@ jobs:
           fi
       - run: |
           export STAGING=$(printf "%s" $(./gradlew stagingPath --quiet))
+          find build -name '*.toml'
           gh release create ${{ github.event.workflow_run.head_sha }} --generate-notes $STAGING/* --verify-tag
         if: ${{ steps.detect-tag.outputs.is_tag == 'true' }}
         env:
