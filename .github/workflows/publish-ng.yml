@@ -4,13 +4,7 @@
 
 name: publish-to-github-packages
 on:
-  workflow_run:
-    workflows: [build]
-    types: [completed]
-    branches:
-      - "**"
-      - "!renovate/**"
-      - "!deps/**"
+  push:
 jobs:
   publish:
     if: github.event.workflow_run.conclusion == 'success'
