@@ -52,13 +52,16 @@ jobs:
           else
             echo "is_tag=false" >> "$GITHUB_OUTPUT"
           fi
-      - run: |
+      - name: Release on GitHub
+        run: |
           ./gradlew publishAllPublicationsToStagingRepository
           export STAGING=$(printf "%s" $(./gradlew stagingPath --quiet))
           gh release create ${{ github.event.workflow_run.head_branch }} --generate-notes $STAGING/* --verify-tag
         if: ${{ steps.detect-tag.outputs.is_tag == 'true' }}
         env:
           GH_TOKEN: ${{ github.token }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_SECRET_KEY }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.GPG_PASSPHRASE }}
       - run: ./gradlew publishToMavenCentral --info
         if: ${{ steps.detect-tag.outputs.is_tag == 'true' }}
         env:
