@@ -46,23 +46,6 @@ mavenPublishing {
   publishToMavenCentral(false, DeploymentValidation.VALIDATED)
 }
 
-publishing {
-//  publications {
-//    create<MavenPublication>("maven") {
-//      from(components["versionCatalog"])
-//      pom {
-//        url.set(
-//          repositoryHost.repository.websiteUrl
-//            .zip(git.tag.map { "/tree/$it" }.orElse("")) { uri, tag ->
-//              uri.toString() + tag
-//            },
-//        )
-//        scm { tag.set(git.tag) }
-//      }
-//    }
-//  }
-}
-
 catalog {
   // Build the version catalog programmatically from the TOON file.
   // We intentionally DO NOT declare versions here; consumers should use Spring Boot's platform/BOM
