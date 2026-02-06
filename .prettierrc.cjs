@@ -12,6 +12,5 @@ module.exports = {
     require.resolve("prettier-plugin-properties"),
     require.resolve("prettier-plugin-java"),
     require.resolve("prettier-plugin-toml"),
-    // require.resolve("prettier-plugin-sh"),
   ],
 };
