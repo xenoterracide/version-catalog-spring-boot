@@ -15,7 +15,7 @@
 "{.config/git/hooks/*,*.sh}":
   - "reuse annotate --license 'MIT' --copyright 'Caleb Cushing' --copyright-prefix spdx-string-symbol --merge-copyrights --style python"
   - *prettier
-"*.github/workflows/*yml":
+".github/workflows/*.yml":
   - *prettier
 # Documentation
 "(*.md|*.adoc)":
