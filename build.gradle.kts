@@ -43,7 +43,7 @@ publicationLegal {
 }
 
 mavenPublishing {
-  signAllPublications()
+  // signAllPublications()
   configure(VersionCatalog())
   publishToMavenCentral(false, DeploymentValidation.VALIDATED)
 }
@@ -64,6 +64,26 @@ publishing {
     }
   }
 }
+
+tasks.register("stagingPath") {
+  description = "Print path to staging repository for the primary publication"
+  group = "Publishing"
+  val stagingDir = layout.buildDirectory.dir("repo")
+  val groupPath = project.group.toString().replace(".", "/")
+  val artifactId = project.name
+  val setVersion = version
+
+  doLast {
+    print(
+      stagingDir
+        .get()
+        .asFile
+        .resolve("$groupPath/$artifactId/$setVersion")
+        .absolutePath,
+    )
+  }
+}
+
 catalog {
   // Build the version catalog programmatically from the TOON file.
   // We intentionally DO NOT declare versions here; consumers should use Spring Boot's platform/BOM
