@@ -88,4 +88,26 @@ merge-squash:
 	gh pr merge --squash --delete-branch --auto
 
 watch-full:
-	@gh run watch $$($(call gh_head_run_id, "full")) --exit-status
+	@set -e; \
+	  wf="full"; \
+	  commit="$(HEAD)"; \
+	  printf '%s\n' "Waiting for workflow '$$wf' run for commit $$commit..."; \
+	  attempts=0; \
+	  max_attempts=$${GH_WATCH_MAX_ATTEMPTS:-40}; \
+	  sleep_seconds=$${GH_WATCH_SLEEP_SECONDS:-3}; \
+	  run_id=""; \
+	  while [ $$attempts -lt $$max_attempts ]; do \
+	    run_id=$$(gh run list --workflow "$$wf" --commit "$$commit" --json databaseId --jq '.[0].databaseId // empty'); \
+	    if [ -n "$$run_id" ]; then \
+	      break; \
+	    fi; \
+	    attempts=$$((attempts+1)); \
+	    sleep $$sleep_seconds; \
+	  done; \
+	  if [ -z "$$run_id" ]; then \
+	    printf '%s\n' "ERROR: No '$$wf' run found for commit $$commit after $$((attempts*sleep_seconds)) seconds." 1>&2; \
+	    printf '%s\n' "Hint: ensure the workflow triggers include this branch/PR event." 1>&2; \
+	    exit 1; \
+	  fi; \
+	  printf '%s\n' "Found run ID $$run_id. Watching..."; \
+	  gh run watch "$$run_id" --exit-status
