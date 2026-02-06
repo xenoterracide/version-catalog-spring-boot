@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: Copyright © 2024 - 2025 Caleb Cushing
+SPDX-FileCopyrightText: Copyright © 2024-2026 Caleb Cushing
 
 SPDX-License-Identifier: CC-BY-NC-4.0
 -->
@@ -62,26 +62,21 @@ if you have `asdf` installed, you can run `asdf install` to install the versions
 - [Yarn 4 - formatting commit hooks](https://yarnpkg.com/getting-started/install) (via Corepack)
 - [PIP - reuse license header commit hooks](https://pip.pypa.io/en/stable/)
 
-#### Fetching Dependencies
+#### Setup & Dependencies
 
-Yarn setup and manual postinstall:
+Use Yarn 4 (via Corepack) for dev tooling and helper scripts. Commit hooks are installed via a helper script.
 
 ```sh
-# Enable Corepack, install Node dev tools, run postinstall, then verify Gradle deps
+# Enable Corepack and install Node dev tools defined in package.json
 corepack enable
-yarn install --immutable --inline-builds --check-resolutions
-yarn run -T postinstall
-./gradlew dependencies
-```
+yarn install --immutable
 
-If you need to run the postinstall step directly, you can recreate and use the Python lock file via pip-compile (PEP 621):
+# Install Python tools and set up commit hooks
+yarn contributor
 
-```sh
-# Regenerate requirements.txt from PEP 621 dependencies in pyproject.toml
-pip-compile -o requirements.txt pyproject.toml
-
-# Then install and set up commit hooks
-pip install -r requirements.txt && git config core.hooksPath .config/git/hooks
+# Optional: verify/refresh Gradle dependency locks
+yarn ug          # fast (no scan)
+yarn ug:scan     # with build scan and extra output
 ```
 
 ### Committing
