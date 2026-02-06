@@ -2,11 +2,16 @@
 #
 # SPDX-License-Identifier: CC0-1.0
 
-name: publish-ng
+name: publish
 on:
   push:
+  workflow_run:
+    workflows: [full]
+    types: [completed]
     branches:
       - "**"
+      - "!renovate/**"
+      - "!deps/**"
 jobs:
   publish:
     runs-on: ubuntu-22.04
@@ -39,6 +44,7 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_SECRET_KEY }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.GPG_PASSPHRASE }}
       - run: ./gradlew publishToMavenCentral --info
+        if: ${{ github.ref_type == 'tag' }}
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.CENTRAL_USER }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.CENTRAL_PASS }}
