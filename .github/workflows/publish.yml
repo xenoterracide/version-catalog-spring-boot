@@ -43,8 +43,17 @@ jobs:
           ORG_GRADLE_PROJECT_ghPassword: ${{ github.token }}
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_SECRET_KEY }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.GPG_PASSPHRASE }}
+      - name: Detect tag for Maven Central publishing
+        id: detect-tag
+        run: |
+          TAGS=$(git tag --points-at HEAD | head -n1)
+          if [ -n "$TAGS" ]; then
+            echo "is_tag=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "is_tag=false" >> "$GITHUB_OUTPUT"
+          fi
       - run: ./gradlew publishToMavenCentral --info
-        if: ${{ github.ref_type == 'tag' }}
+        if: ${{ steps.detect-tag.outputs.is_tag == 'true' }}
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.CENTRAL_USER }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.CENTRAL_PASS }}
