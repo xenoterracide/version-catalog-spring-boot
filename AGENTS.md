@@ -4,8 +4,10 @@ SPDX-FileCopyrightText: Copyright © 2026 Caleb Cushing
 SPDX-License-Identifier: CC-BY-NC-4.0
 -->
 
+- use any relevant skills found in `.ai/skills`
 - use commit-or-pr-message skill for commit messages
-- `yarn test` must pass if `*.kts`, `*.java`, or `checkstyle/*.xml` has changed
-- Keep Gradle lockfiles current:
-  - `yarn ug` (fast) or `yarn ug:scan` (with build scan)
-- Use `yarn merge` (Make: `make merge`) for the end-to-end merge/PR workflow
+- `./gradlew build` must pass
+- appending `--console=plain` to `./gradlew` commands may make parsing and redirecting output cleaner.
+- `yarn ug` updates gradle dependencies
+- `yarn cleaner` can be used as an alternative to `./gradlew clean` if caches are causing a problem
+- fetch any relevant authoritative documentation or read upstream code when working on a task.
