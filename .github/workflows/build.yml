@@ -12,7 +12,7 @@ jobs:
       contents: write
       packages: read
     steps:
-      - uses: actions/checkout@v6.0.2
+      - uses: actions/checkout@v6.1.0
         with:
           ref: ${{ github.ref }}
           filter: "blob:none"
