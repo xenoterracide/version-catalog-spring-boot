@@ -22,7 +22,7 @@ jobs:
       ORG_GRADLE_PROJECT_ghUsername: ${{ github.actor }}
       ORG_GRADLE_PROJECT_ghPassword: ${{ github.token }}
     steps:
-      - uses: actions/checkout@v6.0.2
+      - uses: actions/checkout@v6.1.0
         with:
           ref: ${{ github.ref }}
           filter: "blob:none"
