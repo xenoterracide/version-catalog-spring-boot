@@ -27,12 +27,12 @@ jobs:
       - *checkout-step
       - uses: actions/setup-node@v6.4.0
         with:
-          node-version: 24
+          node-version: 26
           package-manager-cache: false
       - run: corepack enable
       - uses: actions/setup-node@v6.4.0
         with:
-          node-version: 24
+          node-version: 26
           cache: "yarn"
       - run: yarn install --immutable --inline-builds --check-resolutions
       - run: yarn exec prettier --ignore-unknown --check '**'
